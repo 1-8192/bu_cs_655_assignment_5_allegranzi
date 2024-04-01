@@ -27,19 +27,43 @@ project in the [diagrams](diagrams/) directory.
 #### Observations
 
 The first software design pattern that jumped out to me from the repository's README was the adapter pattern.
-The documentation refers to a Guava cache interface adapter, so I started looking into the files in the guava package.
+The documentation refers to a Guava cache interface adapter, so I started looking into the files in the guava package. The repo
+provides two adapters for the Guava cache interface and the Guava LoadingCache interface. The LoadingCache provides some
+specialized methods for loading values into cache.
+
+The class comments mention "facades," but they seem to be referring to the target interface rather than the facade
+pattern we discussed in class. They are not covering a complex system of classes, but rather adapting the Google Guava Cache
+interface to work with Caffeinca cache classes.
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
    of the context, which class plays the role of the strategy, etc.
+
+Adaptee: com.github.benmanes.caffeine.cache.Cache is the existing interface that needs to be adapted to fit into the Guava Cache interface.
+Target: Cache (from the google Guava package) is the interface that clients interact with, defining the desired functionality.
+Adapter: CaffeinatedGuavaCache is the adapter class that bridges between the Cache interface and the com.github.benmanes.caffeine.cache.Cache implementation.
+
+The LoadingCache version is the same as above but features the LoadingCache classes from the respective packages and external
+Guava libraries.
+
+
 2. Describe the collaboration between the roles as found in the source code. For example,
    if the "Strategy" pattern is used, describe how the context class delegates the actual
    implementation of an algorithm to the strategy class.
+
+CaffeinatedGuavaCache implements the Cache interface (from Google Guava) and internally uses an instance of com.github.benmanes.caffeine.cache.Cache for actual caching operations.
+Methods in CaffeinatedGuavaCache delegate functionality to the corresponding methods in the com.github.benmanes.caffeine.cache.Cache instance.
+The adapter class translates calls from the Cache interface to the methods of the com.github.benmanes.caffeine.cache.Cache memeber variable instance.
+
+
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
    observer class to the project.
 
+Another class implementing the Cache interface can be added easily to the project. This class could provide caching functionality using a different caching library or mechanism.
+Adding another implementation of the Cache interface allows for flexibility in choosing different caching strategies or libraries without affecting the existing code that depends on the Cache interface. 
+This promotes modularity and maintainability.
 
 #### UML Diagram
 
