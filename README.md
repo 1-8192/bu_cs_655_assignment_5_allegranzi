@@ -27,6 +27,8 @@ project in the [diagrams](diagrams/) directory.
 #### Observations
 
 The first software design pattern that jumped out to me from the repository's README was the adapter pattern.
+The pattern "converts the interface of a class into another interface clients expect. Adapter lets
+classes work together that couldn't otherwise because of incompatible interfaces" (Gang of Four text).
 The documentation refers to a Guava cache interface adapter, so I started looking into the files in the guava package. The repo
 provides two adapters for the Guava cache interface and the Guava LoadingCache interface. The LoadingCache provides some
 specialized methods for loading values into cache.
@@ -86,14 +88,30 @@ This promotes modularity and maintainability.
 
 #### Observations
 
+I found a few instances of the Factory method pattern used in the Caffeine repository. I focused on the LocalCacheFactory
+class for this assignment. The Factory Method pattern "defines an interface for creating an object, but lets
+subclasses decide which class to instantiate" (Lecture Notes).
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
    of the context, which class plays the role of the strategy, etc.
+
+Factory Interface: LocalCacheFactory is the interface defining the method for creating instances of BoundedLocalCache. It abstracts the process of object creation.
+Concrete Factory: MethodHandleBasedFactory is a concrete implementation of the LocalCacheFactory interface. It provides the actual implementation for creating instances of BoundedLocalCache.
+Product: BoundedLocalCache is the product class being created by the factory. It represents the objects that the factory produces.
+
 2. Describe the collaboration between the roles as found in the source code. For example,
    if the "Strategy" pattern is used, describe how the context class delegates the actual
    implementation of an algorithm to the strategy class.
+
+The LocalCacheFactory interface defines the method newInstance() for creating instances of BoundedLocalCache.
+MethodHandleBasedFactory implements this interface and provides its own implementation of newInstance(), utilizing MethodHandles for dynamic method invocation.
+The loadFactory() method in the LocalCacheFactory interface is responsible for dynamically loading the appropriate factory implementation based on the configuration provided.
+
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
    observer class to the project.
+
+Another concrete factory class implementing the LocalCacheFactory interface can be added easily to the project. This could allow for different strategies in creating instances of BoundedLocalCache, such as using reflection-based factories, configuration-driven factories, or factories based on different performance considerations.
+Adding another concrete factory class enhances flexibility and maintainability, as it allows for the easy extension of the factory system to accommodate different object creation strategies without modifying existing code.
