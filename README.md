@@ -15,10 +15,11 @@ API. I have actually used Caffeine before at work for a Spring Boot service's ca
 a closer look at the source code.
 
 Overall, the documentation is quite extensive, and the source code is very clear. However, it is also a decently-sized project. 
-I started my research by searching for design pattern keywords like "adapter" and "factory" using the IDE's search function, 
-and looking at the classes that came up. I then traced dependencies and relationships between classes to build out the 
-pattern structures. The results are below. The corresponding UML diagrams for the design patterns are included in this 
-project in the [diagrams](diagrams/) directory.
+The classes are quite large and complex, as well, so I simplified a lot of the information for the diagrams to focus
+on displaying the design pattern relationships. I started my research by searching for design pattern keywords like 
+"adapter" and "factory" using the IDE's search function, and looking at the classes that came up. I then traced dependencies 
+and relationships between classes to build out the pattern structures. The results are below. The corresponding UML 
+diagrams for the design patterns are included in this project in the [diagrams](diagrams/) directory.
 
 ## Patterns used
 
@@ -115,3 +116,7 @@ The loadFactory() method in the LocalCacheFactory interface is responsible for d
 
 Another concrete factory class implementing the LocalCacheFactory interface can be added easily to the project. This could allow for different strategies in creating instances of BoundedLocalCache, such as using reflection-based factories, configuration-driven factories, or factories based on different performance considerations.
 Adding another concrete factory class enhances flexibility and maintainability, as it allows for the easy extension of the factory system to accommodate different object creation strategies without modifying existing code.
+
+#### UML Diagram
+
+[Factory Method pattern diagram](diagrams/factory.pdf)
