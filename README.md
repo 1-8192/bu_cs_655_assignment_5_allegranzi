@@ -21,6 +21,8 @@ on displaying the design pattern relationships. I started my research by searchi
 and relationships between classes to build out the pattern structures. The results are below. The corresponding UML 
 diagrams for the design patterns are included in this project in the [diagrams](diagrams/) directory.
 
+[Github Repository](https://github.com/1-8192/bu_cs_655_assignment_5_allegranzi)
+
 ## Patterns used
 
 ### Adapter Pattern
