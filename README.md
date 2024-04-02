@@ -36,19 +36,21 @@ specialized methods for loading values into cache.
 
 The class comments mention "facades," but they seem to be referring to the target interface rather than the facade
 pattern we discussed in class. They are not covering a complex system of classes, but rather adapting the Google Guava Cache
-interface to work with Caffeinca cache classes.
+interface to work with Caffeine cache classes.
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
    of the context, which class plays the role of the strategy, etc.
 
 Adaptee: com.github.benmanes.caffeine.cache.Cache is the existing interface that needs to be adapted to fit into the Guava Cache interface.
+
 Target: Cache (from the google Guava package) is the interface that clients interact with, defining the desired functionality.
+
 Adapter: CaffeinatedGuavaCache is the adapter class that bridges between the Cache interface and the com.github.benmanes.caffeine.cache.Cache implementation.
 
 The LoadingCache version is the same as above but features the LoadingCache classes from the respective packages and external
-Guava libraries.
-
+Guava libraries. I only diagrammed the CaffeinatedGuavaCache relationships as it is enough to diplay the adapter pattern
+implementation.
 
 2. Describe the collaboration between the roles as found in the source code. For example,
    if the "Strategy" pattern is used, describe how the context class delegates the actual
@@ -92,7 +94,11 @@ This promotes modularity and maintainability.
 I found a few instances of the Factory method pattern used in the Caffeine repository. I focused on the LocalCacheFactory
 Interface for this assignment. The Factory Method pattern "defines an interface for creating an object, but lets
 subclasses decide which class to instantiate" (Lecture Notes). The implementation in the code looked more complex than examples
-we have seen in class. The Interface has a nested final class that implements the interface inside its own file, for example.
+we have seen in class. The Interface has a nested final class that implements the interface inside its own file, for example. 
+
+Additionally, the BoundedLocalCache class, the concrete product for the pattern, is itself an abstract class that implements the LocalCache
+product interface. The BoundedLocalCache itself also has a builder method that takes in configurations, so the overall architecture
+looks more complex than examples we've seen so far.
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
@@ -100,9 +106,13 @@ we have seen in class. The Interface has a nested final class that implements th
 
 Factory Interface: LocalCacheFactory is the interface defining the method for creating instances of BoundedLocalCache.
 It abstracts the process of object creation.
+
 Concrete Factory: MethodHandleBasedFactory is a concrete implementation of the LocalCacheFactory interface. 
 It provides the actual implementation for creating instances of BoundedLocalCache.
-Product: BoundedLocalCache is the product class being created by the factory. 
+
+Product interface: LocalCache. The interface implemented by the concrete class.
+
+Concrete Product: BoundedLocalCache is the product class being created by the factory. 
 It represents the objects that the factory produces.
 
 2. Describe the collaboration between the roles as found in the source code. For example,
@@ -114,6 +124,9 @@ MethodHandleBasedFactory implements this interface and provides its own implemen
 MethodHandles for dynamic method invocation. The loadFactory() method in the LocalCacheFactory interface is responsible 
 for dynamically loading the appropriate factory implementation based on the configuration provided.
 
+The above is all very generalized, as frankly the factory method logic is pretty complex and features many different
+configuration options.
+
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
@@ -121,10 +134,10 @@ for dynamically loading the appropriate factory implementation based on the conf
 
 Another concrete factory class implementing the LocalCacheFactory interface can be added easily to the project. This could allow for 
 different strategies in creating instances of BoundedLocalCache, such as using reflection-based factories, configuration-driven factories, 
-or factories based on different performance considerations. Adding another concrete factory class enhances flexibility and 
-maintainability, as it allows for the easy extension of the factory system to accommodate different object creation 
-strategies without modifying existing code. Finally, adding more products or configurations is easy to do and is just a matter
-of adding another case in the factory class.
+or factories based on different performance considerations. Adding another concrete factory class is easy and requires only
+implenting the factory interface. It enhances flexibility and maintainability, as it allows for the easy extension of the 
+factory system to accommodate different object creation strategies without modifying existing code. Finally, 
+adding more products or configurations is easy to do and is just a matter of adding another case in the factory class.
 
 #### UML Diagram
 
