@@ -80,10 +80,14 @@ This promotes modularity and maintainability.
 
 The proxy design pattern is a structural pattern that "provides a surrogate or placeholder for another object to control 
 access to it" (Gang of Four Text). The source code conveniently uses "proxy" to name the class, so searching for the pattern 
-was straightforward. The LoadingCacheProxy acts as a proxy for the real cache implementation (LoadingCache). 
-It intercepts method calls to the cache, allowing for additional actions such as exception handling, statistics tracking, 
-and asynchronous operation management. This abstraction enables the implementation of cross-cutting concerns while 
-keeping the core cache logic intact, facilitating easier maintenance and scalability of the caching system.
+was straightforward. However, the actual implementation was again complex. The LoadingCacheProxy extends the CacheProxy, 
+which implements the Cache Interface. The LoadingCache subject is actually itself an interface that extends the Cache interface. 
+The class associations are more nuanced than in many of the class examples. 
+
+The LoadingcacheProxy acts as a proxy for the real cache implementation(LoadingCache). It intercepts method calls to the 
+cache, allowing for additional actions such as exception handling, statistics tracking, and asynchronous operation 
+management. This abstraction enables the implementation of cross-cutting concerns while keeping the core cache logic intact, 
+facilitating easier maintenance and scalability of the caching system.
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
