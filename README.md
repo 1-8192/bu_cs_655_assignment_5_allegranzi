@@ -9,8 +9,8 @@
 ## Summary
 
 The goal of this assignment is to read an existing open source project and identify 3 software design patterns
-we have studied in class. I chose the [Caffeine](https://github.com/ben-manes/caffeine) java in-memory cache repository
-as the subject for this assignment. Caffeine is a near optmial, in-memory cache modeled after Google's Guava java cache
+we have studied in class. I chose the [Caffeine](https://github.com/ben-manes/caffeine) Java in-memory cache repository
+as the subject for this assignment. Caffeine is a near-optmial, in-memory cache modeled after Google's Guava java cache
 API. I have actually used Caffeine before at work for a Spring Boot service's caching layer, and was interested to take 
 a closer look at the source code.
 
@@ -49,26 +49,28 @@ Target: Cache (from the google Guava package) is the interface that clients inte
 Adapter: CaffeinatedGuavaCache is the adapter class that bridges between the Cache interface and the com.github.benmanes.caffeine.cache.Cache implementation.
 
 The LoadingCache version is the same as above but features the LoadingCache classes from the respective packages and external
-Guava libraries. I only diagrammed the CaffeinatedGuavaCache relationships as it is enough to diplay the adapter pattern
+Guava libraries. I only diagrammed the CaffeinatedGuavaCache relationships as it is enough to display the adapter pattern
 implementation.
 
 2. Describe the collaboration between the roles as found in the source code. For example,
    if the "Strategy" pattern is used, describe how the context class delegates the actual
    implementation of an algorithm to the strategy class.
 
-CaffeinatedGuavaCache implements the Cache interface (from Google Guava) and internally uses an instance of com.github.benmanes.caffeine.cache.Cache for actual caching operations.
-Methods in CaffeinatedGuavaCache delegate functionality to the corresponding methods in the com.github.benmanes.caffeine.cache.Cache instance.
-The adapter class translates calls from the Cache interface to the methods of the com.github.benmanes.caffeine.cache.Cache memeber variable instance.
-
+CaffeinatedGuavaCache implements the Cache interface (from Google Guava) and internally uses an instance of 
+com.github.benmanes.caffeine.cache.Cache for actual caching operations. Methods in CaffeinatedGuavaCache delegate 
+functionality to the corresponding methods in the com.github.benmanes.caffeine.cache.Cache instance.
+The adapter class translates calls from the Cache interface to the methods of the com.github.benmanes.caffeine.cache.Cache 
+member variable instance.
 
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
    observer class to the project.
 
-Another class implementing the Cache interface can be added easily to the project. This class could provide caching functionality using a different caching library or mechanism.
-Adding another implementation of the Cache interface allows for flexibility in choosing different caching strategies or libraries without affecting the existing code that depends on the Cache interface. 
-This promotes modularity and maintainability.
+Another class implementing the Cache interface can be added easily to the project. This class could provide caching 
+functionality using a different caching library or mechanism. Adding another implementation of the Cache interface 
+allows for flexibility in choosing different caching strategies or libraries without affecting the existing code that 
+depends on the Cache interface, promoting modularity and maintainability.
 
 #### UML Diagram
 
@@ -93,7 +95,8 @@ facilitating easier maintenance and scalability of the caching system.
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
    of the context, which class plays the role of the strategy, etc.
 
-Proxy Class: LoadingCacheProxy acts as the proxy for the real cache implementation. It provides a similar interface to the real cache and controls access to it.
+Proxy Class: LoadingCacheProxy acts as the proxy for the real cache implementation. It provides a similar interface 
+to the real cache and controls access to it.
 
 Subject Interface: The Cache interface defines the common methods that both the real cache and the proxy must implement.
 
@@ -105,17 +108,19 @@ Real Subject: The LoadingCache class is the real cache implementation that Loadi
    implementation of an algorithm to the strategy class.
 
 LoadingCacheProxy extends CacheProxy, which provides basic functionality for interacting with the cache.
-The proxy delegates most of the method calls to the real cache instance (LoadingCache) and adds additional functionality such as handling exceptions, updating statistics, and managing asynchronous operations.
-Methods in LoadingCacheProxy intercept calls to the real cache, allowing for additional actions to be taken before or after the method invocation.
+The proxy delegates most of the method calls to the real cache instance (LoadingCache) and adds additional functionality 
+such as handling exceptions, updating statistics, and managing asynchronous operations. Methods in LoadingCacheProxy 
+intercept calls to the real cache, allowing for additional actions to be taken before or after the method invocation.
 
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
    observer class to the project.
 
-Another proxy class could be added to implement a different caching strategy or to add additional functionality specific to certain use cases.
-For example, a LoggingCacheProxy class could log all cache interactions, providing useful debugging and monitoring information.
-Adding another proxy class allows for customization and extension of cache behavior without modifying the existing cache implementation, promoting modularity and maintainability.
+Another proxy class could be added to implement a different caching strategy or to add additional functionality specific 
+to certain use cases. For example, a LoggingCacheProxy class could log all cache interactions, providing useful debugging 
+and monitoring information. Adding another proxy class allows for customization and extension of cache behavior without 
+modifying the existing cache implementation, again promoting modularity and maintainability.
 
 #### UML Diagram
 
