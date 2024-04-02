@@ -117,6 +117,10 @@ Another proxy class could be added to implement a different caching strategy or 
 For example, a LoggingCacheProxy class could log all cache interactions, providing useful debugging and monitoring information.
 Adding another proxy class allows for customization and extension of cache behavior without modifying the existing cache implementation, promoting modularity and maintainability.
 
+#### UML Diagram
+
+[Proxy Method pattern diagram](diagrams/proxy.pdf)
+
 ### Factory Pattern
 
 #### Observations
