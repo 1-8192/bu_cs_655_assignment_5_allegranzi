@@ -28,7 +28,7 @@ diagrams for the design patterns are included in this project in the [diagrams](
 #### Observations
 
 The first software design pattern that jumped out to me from the repository's README was the adapter pattern.
-The pattern "converts the interface of a class into another interface clients expect. Adapter lets
+The Adapter pattern is a structural pattern that "converts the interface of a class into another interface clients expect. Adapter lets
 classes work together that couldn't otherwise because of incompatible interfaces" (Gang of Four text).
 The documentation refers to a Guava cache interface adapter, so I started looking into the files in the guava package. The repo
 provides two adapters for the Guava cache interface and the Guava LoadingCache interface. The LoadingCache provides some
@@ -74,25 +74,51 @@ This promotes modularity and maintainability.
 
 [Adapter pattern diagram](diagrams/adapter.pdf)
 
-### Decorator or Observer
+### Proxy
+
+#### Observations
+
+The proxy design pattern is a structural pattern that "provides a surrogate or placeholder for another object to control 
+access to it" (Gang of Four Text). The source code conveniently uses "proxy" to name the class, so searching for the pattern 
+was straightforward. The LoadingCacheProxy acts as a proxy for the real cache implementation (LoadingCache). 
+It intercepts method calls to the cache, allowing for additional actions such as exception handling, statistics tracking, 
+and asynchronous operation management. This abstraction enables the implementation of cross-cutting concerns while 
+keeping the core cache logic intact, facilitating easier maintenance and scalability of the caching system.
 
 1. Identify the class or interface that plays a specific role in the design pattern. For
    example, if the design pattern is the "Strategy" pattern, identify which class plays the role
    of the context, which class plays the role of the strategy, etc.
+
+Proxy Class: LoadingCacheProxy acts as the proxy for the real cache implementation. It provides a similar interface to the real cache and controls access to it.
+
+Subject Interface: The Cache interface defines the common methods that both the real cache and the proxy must implement.
+
+Real Subject: The LoadingCache class is the real cache implementation that LoadingCacheProxy delegates to.
+
+
 2. Describe the collaboration between the roles as found in the source code. For example,
    if the "Strategy" pattern is used, describe how the context class delegates the actual
    implementation of an algorithm to the strategy class.
+
+LoadingCacheProxy extends CacheProxy, which provides basic functionality for interacting with the cache.
+The proxy delegates most of the method calls to the real cache instance (LoadingCache) and adds additional functionality such as handling exceptions, updating statistics, and managing asynchronous operations.
+Methods in LoadingCacheProxy intercept calls to the real cache, allowing for additional actions to be taken before or after the method invocation.
+
 3. Identify where another class can be easily added and describe why it is useful to do so.
    For example, if the design pattern is the "Observer" pattern, identify where another
    observer class can be added and explain why it is easy and useful to add another
    observer class to the project.
+
+Another proxy class could be added to implement a different caching strategy or to add additional functionality specific to certain use cases.
+For example, a LoggingCacheProxy class could log all cache interactions, providing useful debugging and monitoring information.
+Adding another proxy class allows for customization and extension of cache behavior without modifying the existing cache implementation, promoting modularity and maintainability.
 
 ### Factory Pattern
 
 #### Observations
 
 I found a few instances of the Factory method pattern used in the Caffeine repository. I focused on the LocalCacheFactory
-Interface for this assignment. The Factory Method pattern "defines an interface for creating an object, but lets
+Interface for this assignment. The Factory Method pattern is a creational pattern that "defines an interface for creating an object, but lets
 subclasses decide which class to instantiate" (Lecture Notes). The implementation in the code looked more complex than examples
 we have seen in class. The Interface has a nested final class that implements the interface inside its own file, for example. 
 
